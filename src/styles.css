@@ -119,6 +119,11 @@ hr {
   text-align: center;
 }
 
+.weather-icon {
+  width: 30px;
+  border-left: 1px solid black;
+}
+
 .forecasts .forecast-other .temperature {
   text-align: center;
   background-color: rgb(156, 229, 251);
