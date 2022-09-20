@@ -86,3 +86,13 @@ function changeMeasurement(event) {
 
 let unitOfMeasurement = document.querySelector("#unit-of-measurement");
 unitOfMeasurement.addEventListener("click", changeMeasurement);
+
+function getGitHub()
+{
+    let link = "https://github.com/annasitail/homework6.github.io";
+    navigator.clipboard.writeText(link);
+    alert(`GitHub profile link: ${link} \n(copied to clipboard)`);
+}
+
+let github = document.querySelector("#github");
+github.addEventListener("click", getGitHub);
