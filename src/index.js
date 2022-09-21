@@ -1,4 +1,4 @@
-function formatData(date) {
+function formatDate(date) {
     let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let day = days[date.getDay()];
     let hours = date.getHours();
@@ -6,30 +6,56 @@ function formatData(date) {
     return `${day} ${hours}:${minutes}`;
 }
 
+function formatDay(timestamp)
+{
+	let date = new Date(timestamp * 1000);
+	let day = date.getDay();
+	let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+	return days[day];
+}
+
+function displayForecasts(response)
+{
+	let forecast = response.data.daily;
+	let forecastElement = document.querySelector("#forecasts");
+	let forecastHTML = "";
+
+	forecast.forEach(function (forecastDay, index) 
+	{
+		if (index < 5)
+		{
+			forecastHTML = forecastHTML + `
+			<div class="col row forecast-other first">
+				<p class="col date">
+					${formatDay(forecastDay.dt)}
+				</p>
+				<p class="col sun-status">
+					<img class="weather-icon" src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" />
+				</p>
+				<p class="temperature">
+					${Math.round(forecastDay.temp.min)}°C ... ${Math.round(forecastDay.temp.max)}°C
+				</p>
+			</div>
+			`;
+		}
+	});
+	forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(coordinates)
+{
+	console.log(coordinates);
+	let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+	let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+	axios.get(apiUrl).then(displayForecasts);
+}
+
 function changeDate() {
 	let currentDate = document.querySelector("#current-date");
 	let date = new Date();
-	currentDate.innerHTML = formatData(date);
+	currentDate.innerHTML = formatDate(date);
 }
-
-// function showWeather(weather)
-// {
-// 	let text = weather;
-// 	if (weather == "Clouds")
-// 	{
-// 		text = `☁`;
-// 	}
-// 	else if (weather == "Clear")
-// 	{
-// 		text = `☀`;
-// 	}
-// 	else if (weather == "Rain")
-// 	{
-// 		text = `🌧`;
-// 	}
-// 	let sunStatus = document.querySelector("#weather-icon");
-// 	sunStatus.innerHTML = text;
-// }
 
 function showTemperature(response) {
 	let degreesSpan = document.querySelector("#degrees");
@@ -43,6 +69,8 @@ function showTemperature(response) {
 	weatherIcon.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
 	weatherIcon.setAttribute("alt", response.data.weather[0].description);
 	weatherDescription.innerHTML = response.data.weather[0].description;
+
+	getForecast(response.data.coord);
 }
 
 function getCityTemp(city) {
@@ -87,13 +115,6 @@ searchForm.addEventListener("submit", searchCity);
 let currentLocBtn = document.querySelector("#current-location-button");
 currentLocBtn.addEventListener("click", getLocation);
 
-// let cityName = document.querySelector("#city-name");
-// console.log(cityName.innerHTML);
-// if (!cityName.innerHTML)
-// {
-// 	getCityTemp("Kyiv");
-// }
-
 function changeMeasurement(event) {
 	event.preventDefault();
 	let degreesSpan = document.querySelector("#degrees");
@@ -119,3 +140,11 @@ function getGitHub()
 
 let github = document.querySelector("#github");
 github.addEventListener("click", getGitHub);
+
+let cityName = document.querySelector("#city-name");
+console.log(cityName.innerHTML);
+if (!cityName.innerHTML)
+{
+	getCityTemp("Kyiv");
+	changeDate();
+}

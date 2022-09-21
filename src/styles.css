@@ -99,6 +99,11 @@ hr {
   color: rgb(0, 116, 151);
 }
 
+.forecast-of-today .weather-icon {
+  width: 30px;
+  border-left: 1px solid black;
+}
+
 .division {
   margin: 0 auto;
 }
@@ -119,9 +124,8 @@ hr {
   text-align: center;
 }
 
-.weather-icon {
-  width: 30px;
-  border-left: 1px solid black;
+.forecast-other .weather-icon {
+  width: 60px;
 }
 
 .forecasts .forecast-other .temperature {
