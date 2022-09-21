@@ -77,8 +77,8 @@ hr {
   display: block;
   margin: 0 auto;
   width: 80%;
-  max-width: 700px;
-  margin-top: 150px;
+  max-width: 780px;
+  margin-top: 200px;
   margin-bottom: 100px;
 }
 
@@ -88,12 +88,13 @@ hr {
 
 .location {
   border: 1px solid aliceblue;
+  min-width: 65%;
 }
 
 .city {
   font-size: 5rem;
   color: rgb(104, 200, 229);
-  margin: 5% 15%;
+  margin: 5%;
 }
 
 .weather {
